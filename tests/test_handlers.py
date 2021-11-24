@@ -18,7 +18,7 @@ TEST_DATA_PATH = Path(__file__).parent / "integration"
 TEST_INPUT_DIRS = list(TEST_DATA_PATH.glob("**/__input__"))
 TEST_CASE_DIRS = [p.parent for p in TEST_INPUT_DIRS]
 TEST_OUTPUT_DIRS = [p / "__output__" for p in TEST_CASE_DIRS]
-TEST_IDS = [p.name for p in TEST_CASE_DIRS]
+TEST_IDS = [f"{p.parent.name}-{p.name}" for p in TEST_CASE_DIRS]
 
 
 @pytest.mark.parametrize(
