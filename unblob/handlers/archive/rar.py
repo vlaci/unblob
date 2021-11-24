@@ -31,7 +31,7 @@ def calculate_rar_size(file: io.BufferedReader, start_offset: int):
 
 
 def calculate_chunk(
-    file: io.BufferedReader, start_offset: int
+    file: io.BufferedIOBase, start_offset: int
 ) -> Union[ValidChunk, UnknownChunk]:
 
     rar_end_offset = calculate_rar_size(file, start_offset)
