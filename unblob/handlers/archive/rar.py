@@ -42,5 +42,5 @@ def calculate_chunk(
     )
 
 
-def make_extract_command(infile: str, outdir: str) -> List[str]:
-    return ["unar", infile, "-o", outdir]
+def make_extract_command(inpath: str, outdir: str) -> List[str]:
+    return ["unar", inpath, "-o", outdir]
