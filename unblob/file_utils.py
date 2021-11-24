@@ -45,3 +45,7 @@ class LimitedStartReader(io.BufferedIOBase):
 
     def readinto1(self, *args, **kwargs):
         return self._file.readinto1(*args, **kwargs)
+
+    @property
+    def name(self):
+        return self._file.name
