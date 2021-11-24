@@ -22,7 +22,7 @@ condition:
 YARA_MATCH_OFFSET = 0
 
 
-def calculate_rar_size(file: io.BufferedReader, start_offset: int):
+def calculate_rar_size(file: io.BufferedIOBase, start_offset: int):
     rar_limited = LimitedStartReader(file, start_offset)
     rar_file = rarfile.RarFile(rar_limited)
     rar_tell = rar_file._rarfile.tell()
