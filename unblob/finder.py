@@ -3,15 +3,17 @@ Searching Chunk related functions.
 The main "entry point" is search_chunks_by_priority.
 """
 from functools import lru_cache
-from typing import List, Optional
+from typing import Collection, List, Optional
 
 import attr
-from pyperscan import BlockDatabase, Flag, Pattern, Scan
+from pyperscan import BlockDatabase, Flag
+from pyperscan import Pattern as PsPattern
+from pyperscan import Scan
 from structlog import get_logger
 
 from .file_utils import InvalidInputFormat, SeekError
 from .handlers import Handlers
-from .models import File, Handler, TaskResult, ValidChunk
+from .models import File, Handler, Pattern, TaskResult, ValidChunk
 from .parser import InvalidHexString
 from .report import CalculateChunkExceptionReport
 
@@ -165,14 +167,7 @@ def build_hyperscan_database(handlers: Handlers):
         handler = handler_class()
         for pattern in handler.PATTERNS:
             try:
-                patterns.append(
-                    Pattern(
-                        pattern.as_regex(),
-                        Flag.SOM_LEFTMOST,
-                        Flag.DOTALL,
-                        tag=handler,
-                    )
-                )
+                patterns.append(pattern.to_pyperscan(tag=handler))
             except InvalidHexString as e:
                 logger.error(
                     "Invalid pattern",
@@ -182,3 +177,9 @@ def build_hyperscan_database(handlers: Handlers):
                 )
                 raise
     return BlockDatabase(*patterns)
+
+
+def simple_database(patterns: Collection[Pattern]):
+    return BlockDatabase(
+        *(PsPattern(p.as_regex(), Flag.SOM_LEFTMOST, Flag.DOTALL) for p in patterns)
+    )

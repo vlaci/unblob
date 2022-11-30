@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import List, Optional, Tuple, Type
 
 import attr
+import pyperscan as ps
 from structlog import get_logger
 
 from .file_utils import Endian, File, InvalidInputFormat, StructParser
@@ -215,6 +216,9 @@ class Extractor(abc.ABC):
 
 
 class Pattern(str):
+    def to_pyperscan(self, tag=None):
+        return ps.Pattern(self.as_regex(), ps.Flag.SOM_LEFTMOST, ps.Flag.DOTALL)
+
     def as_regex(self) -> bytes:
         raise NotImplementedError
 
