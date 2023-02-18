@@ -11,7 +11,10 @@ let
       plotext = final.callPackage ../plotext { };
       ubi-reader = final.callPackage ../ubi-reader { };
       yaffshiv = final.callPackage ../yaffshiv { };
-      pyperscan = pyperscan.packages.${system}.default;
+      lief = prev.lief.overrideAttrs (super: {
+        meta.platform = super.meta.platform ++ [ final.lib.platforms.darwin ];
+      });
+      pyperscan = pyperscan.packages.${system}.default.vectorscan;
     };
   };
 in
