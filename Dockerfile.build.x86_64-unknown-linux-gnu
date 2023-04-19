@@ -1,0 +1,33 @@
+# syntax=docker/dockerfile:1.4
+FROM quay.io/pypa/manylinux2014_x86_64:latest
+
+ENV PATH="${PATH}:/opt/python/cp38-cp38/bin:/root/.cargo/bin"
+ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
+ENV UNBLOB_BUILD_RUST_EXTENSION=1
+
+RUN <<EOF sh -xe
+    pip install --upgrade auditwheel pip pdm
+    curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain 1.60.0
+    yum install -y lzo-devel
+EOF
+RUN mkdir -p /usr/src/unblob
+WORKDIR /usr/src/unblob
+
+COPY <<"EOF" /build.sh
+#!/usr/bin/env bash
+set -xeuo pipefail
+
+rm -f dist/*.whl
+cp -a . /usr/src/build
+(
+    cd /usr/src/build
+    pdm build
+    WHLS=$(echo dist/*.whl)
+    auditwheel repair $WHLS -w dist
+    rm $WHLS
+)
+cp -a /usr/src/build/dist .
+chown -R $(stat -c "%u:%g" .) dist
+EOF
+RUN chmod +x /build.sh
+CMD [ "/build.sh" ]
