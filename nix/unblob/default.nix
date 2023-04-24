@@ -38,8 +38,8 @@
 
 let
   pyproject_toml = (builtins.fromTOML (builtins.readFile ../../pyproject.toml));
-  pname = pyproject_toml.tool.poetry.name;
-  version = pyproject_toml.tool.poetry.version;
+  pname = pyproject_toml.project.name;
+  version = pyproject_toml.project.version;
 
   # These dependencies are only added to PATH
   runtimeDeps = [
@@ -65,7 +65,7 @@ let
     src = nix-filter {
       root = ../../.;
       include = [
-        "build.py"
+        "setup.py"
         "pyproject.toml"
         "unblob"
       ];
@@ -112,6 +112,7 @@ let
 
     preBuild = ''
       cp -r --no-preserve=mode ${rust-module}/unblob .
+      echo "include unblob/*.so" >> MANIFEST.in
     '';
 
     makeWrapperArgs = [

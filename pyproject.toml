@@ -1,59 +1,60 @@
-[tool.poetry]
-name = "unblob"
-version = "23.4.17"
-description = "Extract files from any kind of container formats"
-authors = ["ONEKEY <support@onekey.com>"]
-license = "MIT"
-packages = [
-    { include = "unblob" },
+[tool.pdm]
+[tool.pdm.dev-dependencies]
+test = [
+"pytest~=6.2.4",
+"pyright~=0.0.12",
+"pre-commit~=2.15.0",
+"pytest-cov~=3.0.0",
+"ruff~=0.0.259",
 ]
-include = ["rust/*", "rust/src/*"]
-build = "build.py"
+doc = [
+  "mkdocs-material==8.5.10",
+  "mkdocstrings~=0.19.1",
+  "pillow~=9.4.0",
+  "cairosvg~=2.7.0",
+  "mkdocstrings-python~=0.8.3",
+]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-click = "^8.1.3"
-"dissect.cstruct" = "^2.0"
-attrs = "^22.2.0"
-structlog = "^21.2.0"
-arpy = "^2.2.0"
-rarfile = "^4.0"
-ubi-reader = "^0.8.5"
-python-lzo = "^1.14"
-plotext = ">=4.2.0,<6.0"
-pluggy = "^1.0.0"
-python-magic = "^0.4.27"
-pyperscan = "^0.2.0"
-lark = "^1.1.2"
-lz4 = "^4.0.0"
-lief = "^0.12.3"
-jefferson = "^0.4.2"
-cryptography = ">=37.0.1,<40.0"
-treelib = "^1.6.1"
+[project]
+name = "unblob"
+version = "23.4.24"
+description = "Extract files from any kind of container formats"
+authors = [
+    {name = "ONEKEY", email = "support@onekey.com"},
+]
+dependencies = [
+    "click~=8.1.3",
+    "dissect.cstruct~=2.0",
+    "attrs~=22.2",
+    "structlog~=21.2",
+    "arpy~=2.2",
+    "rarfile~=4.0",
+    "ubi-reader~=0.8.5",
+    "python-lzo~=1.14",
+    "plotext>=4.2.0,<6.0",
+    "pluggy~=1.0",
+    "python-magic~=0.4.27",
+    "pyperscan~=0.2.0",
+    "lark~=1.1.2",
+    "lz4~=4.0",
+    "lief~=0.12.3",
+    "jefferson~=0.4.2",
+    "cryptography>=37.0.1,<40.0",
+    "treelib~=1.6.1",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
 
-[tool.poetry.group.dev]
-optional = true
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^6.2.4"
-pyright = "^0.0.12"
-pre-commit = "^2.15.0"
-pytest-cov = "^3.0.0"
-ruff = "^0.0.259"
-setuptools-rust = "^1.1.2"
-
-[tool.poetry.group.docs]
-optional = true
-
-[tool.poetry.group.docs.dependencies]
-mkdocs-material = "8.5.10"
-mkdocstrings = "^0.19.1"
-pillow = "^9.4.0"
-cairosvg = "^2.7.0"
-mkdocstrings-python = "^0.8.3"
-
-[tool.poetry.scripts]
+[project.scripts]
 unblob = "unblob.cli:main"
+
+[build-system]
+requires = ["setuptools", "setuptools_rust", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+namespaces = false
 
 [tool.ruff]
 target-version = "py38"
@@ -109,9 +110,6 @@ ignore = [
 ignore-init-module-imports = true
 
 [tool.ruff.per-file-ignores]
-"build.py" = [
-  "T201"  # print
-]
 "tests/*" = [
   "FBT001",  # boolean-positional-arg-in-function-definition: allowed in `pytest.param()`
   "FBT003",  # boolean-positional-value-in-function-call:     allowed test parameters
@@ -153,7 +151,3 @@ exclude = ["unblob/_py/", "unblob/testing.py"]
 
 [tool.pyright]
 exclude = ["build"]
-
-[build-system]
-requires = ["poetry-core>=1.0.0", "setuptools>=60.9.3", "setuptools-rust==1.5.1"]
-build-backend = "poetry.core.masonry.api"

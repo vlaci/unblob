@@ -4,6 +4,8 @@ let
   unblob-rust-src = nix-filter {
     root = ../../.;
     include = [
+      "pyproject.toml"
+      "setup.py"
       "Cargo.toml"
       "Cargo.lock"
       "rust"
@@ -33,19 +35,6 @@ craneLib.mkCargoDerivation {
   inherit cargoArtifacts;
   UNBLOB_BUILD_RUST_EXTENSION = "1";
   buildPhaseCargoCommand = ''
-    cat <<EOF >> setup.py
-    from setuptools import setup
-    kwargs = {}
-    ${builtins.readFile ../../build.py}
-    build(kwargs)
-    print(kwargs)
-    setup(
-        name="${pname}",
-        version="${version}",
-        packages=["unblob"],
-        **kwargs
-    )
-    EOF
     mkdir unblob
     touch unblob/__init__.py
     python setup.py bdist
