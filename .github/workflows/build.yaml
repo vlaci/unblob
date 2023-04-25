@@ -46,11 +46,11 @@ jobs:
       - name: Setup 3rd party dependencies
         uses: ./.github/actions/setup-dependencies
 
-      - name: Poetry install
-        run: poetry install
+      - name: PDM install
+        run: pdm install
 
       - name: Check - pyright
-        run: PYRIGHT_PYTHON_FORCE_VERSION=1.1.188 poetry run pyright .
+        run: PYRIGHT_PYTHON_FORCE_VERSION=1.1.188 pdm run pyright .
 
   sdist:
     name: Build - sdist
@@ -59,9 +59,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: python -m pip install --upgrade pip poetry
+      - run: python -m pip install --upgrade pip pdm
       - name: Build sdist
-        run: poetry build --format=sdist
+        run: pdm build --no-wheel
       - name: Upload sdist
         uses: actions/upload-artifact@v3
         with:
@@ -151,10 +151,10 @@ jobs:
           path: dist
 
       - name: Install Unblob from wheel
-        run: poetry run pip install dist/*.whl
+        run: pdm run pip install dist/*.whl
 
       - name: Run pytest
-        run: poetry run pytest -vvv
+        run: pdm run pytest -vvv
 
   release:
     name: Release
@@ -170,6 +170,7 @@ jobs:
           path: dist
       - run: mv dist/*/* dist
       - name: Publish to PyPI
-        run: poetry publish
+        run: pdm publish --no-build
         env:
-          POETRY_PYPI_TOKEN_PYPI: ${{secrets.POETRY_PYPI_TOKEN_PYPI}}
+          PDM_PYP_USER: __token__
+          PDM_PYPI_PASSWORD: ${{secrets.POETRY_PYPI_TOKEN_PYPI}}

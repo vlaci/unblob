@@ -10,13 +10,13 @@ Unblob consists of two main parts:
 - unblob, the Python package (with optional Rust modules).
 - extractor command line tools like `7zip`, `unar`, etc. (See [Extractors](./extractors.md) for explanation.)
 
-All of these need to be installed to make unblob fully functional.  
+All of these need to be installed to make unblob fully functional.
 Depending the packaging solution you choose, you might need to
 install external extractors manually.
 
 ## Python package
 
-unblob can be installed (without the extractors) from PyPI (Python Package Index).  
+unblob can be installed (without the extractors) from PyPI (Python Package Index).
 This might be the easiest method, depending on whether you have Python 3 installed already.
 
 1.  First, install the Python package:
@@ -68,7 +68,7 @@ The Nix derivation installs all 3rd party dependencies.
 
 1.  [Install and configure Nix](https://nixos.org/download.html).
 
-1.  _Optional_: enable the experimental features so that you don't need to pass  
+1.  _Optional_: enable the experimental features so that you don't need to pass
     `--extra-experimental-features "nix-command flakes"` to `nix` command invocations:
 
           cat > ~/.config/nix/nix.conf <<EOF
@@ -91,33 +91,33 @@ The Nix derivation installs all 3rd party dependencies.
 ## From source
 
 1.  Install [Git](https://git-scm.com/download/) if you don't have it yet.
-2.  Install the [Poetry](https://python-poetry.org/docs/#installation) Python package manager.
+2.  Install the [PDM](https://pdm.fming.dev/latest/#installation) Python package manager.
 3.  **Clone** the unblob **repository from GitHub**:
 
         git clone https://github.com/onekey-sec/unblob.git
 
-4.  Install **Python dependencies** with Poetry:
+4.  Install **Python dependencies** with PDM:
 
     1.  _Optional_: With Rust optimizations
         (you need a [Rust compiler](https://www.rust-lang.org/tools/install)):
 
             cd unblob
-            UNBLOB_BUILD_RUST_EXTENSION=1 poetry install --no-dev
+            UNBLOB_BUILD_RUST_EXTENSION=1 pdm install --prod
 
     2.  Python packages only:
 
             cd unblob
-            poetry install --no-dev
+            pdm install --prod
 
     3.  Make sure you [installed all extractors](#install-extractors).
 
     4.  Check that everything works correctly:
 
-            poetry run unblob --show-external-dependencies
+            pdm run unblob --show-external-dependencies
 
 ## Install extractors
 
-1.  With your operating system package manager:  
+1.  With your operating system package manager:
     On Ubuntu 22.04, install extractors with APT:
 
         sudo apt install e2fsprogs p7zip-full unar zlib1g-dev liblzo2-dev lzop lziprecover img2simg libhyperscan-dev zstd

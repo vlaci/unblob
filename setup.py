@@ -40,7 +40,7 @@ if BUILD_RUST_EXTENSION:
                 """
                     ####################### WARNING ######################
                     Required dependency, setuptools-rust cannot be found.
-                    It can be installed by issuing =poetry install= first.
+                    It can be installed by issuing =pdm install= first.
                     ####################### WARNING ######################
                     """
             )

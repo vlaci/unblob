@@ -32,8 +32,8 @@ where the exciting stuff is.
 - **git**: You need it for cloning the repository.
   Install it [from the git-scm website](https://git-scm.com/download).
 
-- **Poetry**: it is a package manager for Python dependencies. Follow the instructions on the
-  [Poetry website](https://python-poetry.org/docs/master/#installation) to install the latest version.
+- **PDM**: it is a package manager for Python dependencies. Follow the instructions on the
+  [PDM website](https://pdm.fming.dev/latest/#installation) to install the latest version.
 
 - **pre-commit**: We are using [pre-commit](https://pre-commit.com/) to run
   checks like linters, type checks and formatting issues.
@@ -73,16 +73,16 @@ You need to setup Git LFS once, before you will be able to run the whole test su
 
 The recommended way to develop Python projects in a semi-isolated way is to use `virtualenv`.
 
-If you don't want to manage it separately, you can rely on `Poetry` to automatically
+If you don't want to manage it separately, you can rely on `PDM` to automatically
 create a virtualenv for you on install.
 
-If you don't want Poetry to automatically create a virtualenv, you can turn it off with this command:
+If you don't want PDM to automatically create a virtualenv, you can turn it off with this command:
 
 ```shell
-poetry config virtualenvs.create false
+pdm config python.use_venv False
 ```
 
-Or instead of Poetry you can use `pyenv`. You can set the Python interpreter
+Or instead of PDM you can use `pyenv`. You can set the Python interpreter
 version for the local folder only with:
 
 ```
@@ -91,12 +91,12 @@ pyenv local 3.8.12
 
 ### Installing Python dependencies
 
-We are using [poetry](https://python-poetry.org/) to manage our Python dependencies.
+We are using [PDM](https://pdm.fming.dev/) to manage our Python dependencies.
 
-- If you installed Rust: run `UNBLOB_BUILD_RUST_EXTENSION=1 poetry install`
-  to build and install the extension. Set `RUST_DEBUG=1` to build it in debug mode.
+- If you installed Rust: run `UNBLOB_BUILD_RUST_EXTENSION=1 pdm install`
+  to build and install the extension. Set `UNBLOB_RUST_DEBUG=1` to build it in debug mode.
 
-- `poetry install` will install all required dependencies for development.
+- `pdm install` will install all required dependencies for development.
 
 ### Running pre-commit
 
@@ -105,9 +105,9 @@ don't need this step, otherwise you can run all checks with `pre-commit run --al
 
 ### Running the tests
 
-We are using [pytest](https://docs.pytest.org/) for running our test suite.  
+We are using [pytest](https://docs.pytest.org/) for running our test suite.
 We have big integration files in the `tests/integration` directory,
-we are using [Git LFS to track them](https://git-lfs.github.com/).  
+we are using [Git LFS to track them](https://git-lfs.github.com/).
 Only after you [installed Git LFS](#cloning-the-git-repository), can you
 run all tests, with `python -m pytest tests/` in the activated virtualenv.
 
@@ -140,7 +140,7 @@ class Handler(abc.ABC):
 
 - `NAME`: a unique name for this handler, this value will be appended at the end of carved out chunks
 - `PATTERNS`: an array of `Hyperscan` rules.
-- `PATTERN_MATCH_OFFSET`: an offset from the `hyperscan` match to the actual start offset.  
+- `PATTERN_MATCH_OFFSET`: an offset from the `hyperscan` match to the actual start offset.
   This happens when the magic is not the first field in a file header
 - `EXTRACTOR`: an optional [Extractor](extractors.md). It can be set to `None`
   if the handler is supposed to only carve files
@@ -292,7 +292,7 @@ class MyformatHandler(StructHandler):
         return ValidChunk(start_offset=start_offset, end_offset=end_offset)
 ```
 
-**That's it!**  
+**That's it!**
 Now you have a working handler for your own custom format!
 
 ### Testing Handlers

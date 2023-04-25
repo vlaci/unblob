@@ -16,7 +16,6 @@
 , lz4
 , plotext
 , pluggy
-, poetry-core
 , pyperscan
 , python-lzo
 , python-magic
@@ -74,7 +73,7 @@ let
     strictDeps = true;
     doCheck = false;
 
-    buildInputs = [ poetry-core setuptools ];
+    buildInputs = [ setuptools ];
 
     propagatedBuildInputs = [
       arpy

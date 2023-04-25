@@ -17,7 +17,7 @@ mkShell {
     pyright
     python3Packages.pytest
     python3Packages.pytest-cov
-    poetry
+    pdm
     lzo
     update
   ];
