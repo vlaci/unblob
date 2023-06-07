@@ -9,12 +9,12 @@
 
 buildPythonPackage rec {
   pname = "jefferson";
-  version = "0.4.4";
+  version = "0.4.5";
   format = "pyproject";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "sha256-RHEXbKRQWTyPWIzSRLwW82u/TsDgiL7L5o+cUWgLLk0=";
+    sha256 = "sha256-+cPOzzO3bCQAu8LrbjUJ5S/SR5OFitOYLIu5L9t/q+k=";
   };
 
   nativeBuildInputs = with python3.pkgs; [
