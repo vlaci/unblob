@@ -28,5 +28,6 @@
   },
   "pre-commit": {
     "enabled": true
-  }
+  },
+  "forkProcessing": "enabled"
 }
