@@ -277,8 +277,10 @@ jobs:
     if: github.event_name == 'push' || contains(github.event.*.labels.*.name, 'dependencies')
     needs: [build_linux_wheels]
     permissions:
-      contents: write # sariff
-      packages: write # registry
+      # sarif
+      security-events: write
+      # registry
+      packages: write
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
